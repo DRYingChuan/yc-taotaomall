@@ -24,9 +24,6 @@
         <artifactId>taotao-common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>
-    <!-- 添加tomcat插件 -->
-
-
 </dependencies>
     <!-- 添加tomcat插件 -->
     <build>
@@ -41,5 +38,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

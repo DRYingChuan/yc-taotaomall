@@ -39,6 +39,7 @@
         <solrj.version>4.10.3</solrj.version>
         <freemarker.version>2.3.23</freemarker.version>
         <quartz.version>2.2.2</quartz.version>
+        <junit.version>4.11</junit.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -199,7 +200,19 @@
                 <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>
