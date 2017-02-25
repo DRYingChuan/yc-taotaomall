@@ -5,6 +5,8 @@ import com.yc.taotao.mapper.TbItemCatMapper;
 import com.yc.taotao.pojo.TbItemCat;
 import com.yc.taotao.pojo.TbItemCatExample;
 import com.yc.taotao.service.ItemCatService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
