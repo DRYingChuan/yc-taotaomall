@@ -32,7 +32,7 @@ public class PictureServiceImpl implements PictureService {
             //取扩展名不要“.”
             String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
            // FastDFSClient client = new FastDFSClient("classpath:properties/client.conf");
-            String url = fastDFSClient.uploadFile(multipartFile.getBytes(), extName);
+           String url = fastDFSClient.uploadFile(multipartFile.getBytes(), extName);
             //把url响应给客户端
             url=IMAGE_SERVER_BASE_PATH+url;
             System.out.println(url);

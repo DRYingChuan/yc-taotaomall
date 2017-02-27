@@ -19,7 +19,7 @@ public interface TbContentMapper {
     List<TbContent> selectByExampleWithBLOBs(TbContentExample example);
 
     List<TbContent> selectByExample(TbContentExample example);
-
+    List<TbContent> selectTbContent(long categoryId);
     TbContent selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TbContent record, @Param("example") TbContentExample example);

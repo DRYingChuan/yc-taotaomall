@@ -11,7 +11,7 @@ import com.yc.taotao.pojo.TbItemParam;
 public interface ItemParamService {
     EasyuiDataGridResult getParamList(int page, int rows);
     TaotaoResult deleteParam(long id);
-    TaotaoResult createItem(TbItemParam tbItemParam);
+    TaotaoResult createItem(String paramData,long id);
     TaotaoResult updateParam(TbItemParam tbItemParam);
     TaotaoResult getItemParamByCid(long cid);
 }

@@ -8,13 +8,18 @@ import com.yc.taotao.mapper.TbItemParamMapper;
 import com.yc.taotao.pojo.TbItemParam;
 import com.yc.taotao.pojo.TbItemParamExample;
 import com.yc.taotao.service.ItemParamService;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.ibatis.reflection.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by yc on 17-2-23.
  */
+@Service
 public class ItemParamServiceImpl implements ItemParamService {
     @Autowired
     private TbItemParamMapper itemParamMapper;
@@ -25,14 +30,16 @@ public class ItemParamServiceImpl implements ItemParamService {
         PageHelper.startPage(page,rows);
         //查询数据
         TbItemParamExample itemParamExample=new TbItemParamExample();
-        List<TbItemParam> list = itemParamMapper.selectByExample(itemParamExample);
+        List<TbItemParam> list = itemParamMapper.selectByExampleWithBLOBs(itemParamExample);
         //参数设置
-        PageInfo<TbItemParam> pageInfo=new PageInfo<TbItemParam>(list);
+        PageInfo<TbItemParam> pageInfo=new PageInfo(list);
         //
-        EasyuiDataGridResult easyuiDataGridResult=new EasyuiDataGridResult();
-        easyuiDataGridResult.setRows(pageInfo.getList());
-        easyuiDataGridResult.setTotal(pageInfo.getTotal());
-        return easyuiDataGridResult;
+        EasyuiDataGridResult result=new EasyuiDataGridResult();
+        //设置值
+        result.setTotal(pageInfo.getTotal());
+        result.setRows(pageInfo.getList());
+        System.out.printf(result.toString());
+        return result;
     }
 
     @Override
@@ -42,8 +49,18 @@ public class ItemParamServiceImpl implements ItemParamService {
     }
 
     @Override
-    public TaotaoResult createItem(TbItemParam tbItemParam) {
-        itemParamMapper.insert(tbItemParam);
+    public TaotaoResult createItem(String paramData,long id) {
+        TbItemParam ItemParam=new TbItemParam();
+        Date date=new Date();
+        ItemParam.setCreated(date);
+        ItemParam.setUpdated(date);
+        ItemParam.setItemCatId(id);
+        ItemParam.setParamData(paramData);
+        try {
+            itemParamMapper.insert(ItemParam);
+        }catch (Exception e){
+            return TaotaoResult.build(500, ExceptionUtils.getStackTrace(e));
+        }
         return TaotaoResult.ok();
     }
 
@@ -57,6 +74,15 @@ public class ItemParamServiceImpl implements ItemParamService {
 
     @Override
     public TaotaoResult getItemParamByCid(long cid) {
-        return null;
+
+        TbItemParamExample example=new TbItemParamExample();
+        TbItemParamExample.Criteria criteria = example.createCriteria();
+        criteria.andItemCatIdEqualTo(cid);
+        List<TbItemParam> list=itemParamMapper.selectByExampleWithBLOBs(example);
+        if (null!=list&&!list.isEmpty()){
+            return TaotaoResult.ok(list.get(0));
+        }
+        return TaotaoResult.build(400,"次分类未定义规格模板");
+
     }
 }

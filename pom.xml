@@ -11,6 +11,8 @@
     <modules>
         <module>taotao-common</module>
         <module>taotao-manager</module>
+        <module>taotao-res</module>
+        <module>taotao-portal</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
@@ -216,6 +218,7 @@
                 <artifactId>fastdfs-client-java</artifactId>
                 <version>1.25</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
