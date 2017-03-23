@@ -12,5 +12,5 @@ import com.yc.taotao.pojo.TbItem;
 public interface ItemService {
     TbItem getItemById(Long id);
     EasyuiDataGridResult getItemList(int page, int rows);
-    TaotaoResult createItem(TbItem tbItem,String dec);
+    TaotaoResult createItem(TbItem tbItem,String dec,String itemParams);
 }

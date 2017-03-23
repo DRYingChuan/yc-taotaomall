@@ -9,10 +9,10 @@ import com.yc.taotao.pojo.TbItemParam;
 import com.yc.taotao.pojo.TbItemParamExample;
 import com.yc.taotao.service.ItemParamService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.ibatis.reflection.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class ItemParamServiceImpl implements ItemParamService {
         //查询数据
         TbItemParamExample itemParamExample=new TbItemParamExample();
         List<TbItemParam> list = itemParamMapper.selectByExampleWithBLOBs(itemParamExample);
+        List<TbItemParam> listX=new ArrayList<>();
         //参数设置
         PageInfo<TbItemParam> pageInfo=new PageInfo(list);
         //

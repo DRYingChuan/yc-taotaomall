@@ -1,6 +1,8 @@
 package com.yc.taotao.rest.controller;
 
+import com.yc.common.utils.ExceptionUtil;
 import com.yc.common.utils.JsonUtils;
+import com.yc.common.utils.TaotaoResult;
 import com.yc.taotao.pojo.ItemCatResult;
 import com.yc.taotao.rest.service.ItemCatService;
 import org.apache.commons.lang3.StringUtils;
@@ -46,5 +48,17 @@ public class ItemCatController {
         MappingJacksonValue mappingJacksonValue=new MappingJacksonValue(catResult);
         mappingJacksonValue.setJsonpFunction(callback);
         return mappingJacksonValue;
+    }
+
+    @RequestMapping("/sync/itemcat/cat")
+    @ResponseBody
+    public TaotaoResult sysncContent() {
+        try {
+            TaotaoResult result = itemCatService.syncContent("cat");
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+        }
     }
 }

@@ -16,6 +16,7 @@ public interface TbContentCategoryMapper {
 
     int insertSelective(TbContentCategory record);
 
+
     List<TbContentCategory> selectByExample(TbContentCategoryExample example);
 
     TbContentCategory selectByPrimaryKey(Long id);

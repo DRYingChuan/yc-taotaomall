@@ -8,10 +8,8 @@ import com.yc.common.utils.IDUtils;
 import com.yc.common.utils.TaotaoResult;
 import com.yc.taotao.mapper.TbItemDescMapper;
 import com.yc.taotao.mapper.TbItemMapper;
-import com.yc.taotao.pojo.TbItem;
-import com.yc.taotao.pojo.TbItemDesc;
-import com.yc.taotao.pojo.TbItemDescExample;
-import com.yc.taotao.pojo.TbItemExample;
+import com.yc.taotao.mapper.TbItemParamItemMapper;
+import com.yc.taotao.pojo.*;
 import com.yc.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +28,8 @@ public class ItemServiceImpl implements ItemService {
     private TbItemMapper itemMapper;
     @Autowired
     private TbItemDescMapper itemDescMapper;
+    @Autowired
+    private TbItemParamItemMapper itemParamItemMapper;
     @Override
     public TbItem getItemById(Long itemId) {
         TbItem item = itemMapper.selectByPrimaryKey(itemId);
@@ -55,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public TaotaoResult createItem(TbItem tbItem, String desc) {
+    public TaotaoResult createItem(TbItem tbItem, String desc,String itemParams) {
         //生成商品ID
         long itemId= IDUtils.genItemId();
         //补全TBITEM属性
@@ -74,6 +74,13 @@ public class ItemServiceImpl implements ItemService {
         itemDesc.setCreated(date);
         itemDesc.setUpdated(date);
         itemDescMapper.insert(itemDesc);
+        //添加商品规格参数
+        TbItemParamItem itemParamItem=new TbItemParamItem();
+        itemParamItem.setParamData(itemParams);
+        itemParamItem.setItemId(itemId);
+        itemParamItem.setCreated(date);
+        itemParamItem.setUpdated(date);
+        itemParamItemMapper.insert(itemParamItem);
         return TaotaoResult.ok();
     }
 

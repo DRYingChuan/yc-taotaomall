@@ -1,12 +1,15 @@
 package com.yc.taotao.rest.service.impl;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.yc.common.utils.JsonUtils;
+import com.yc.common.utils.TaotaoResult;
 import com.yc.taotao.mapper.TbItemCatMapper;
-import com.yc.taotao.pojo.CatNote;
-import com.yc.taotao.pojo.ItemCatResult;
-import com.yc.taotao.pojo.TbItemCat;
-import com.yc.taotao.pojo.TbItemCatExample;
+import com.yc.taotao.pojo.*;
+import com.yc.taotao.rest.component.JedisClient;
 import com.yc.taotao.rest.service.ItemCatService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,16 +22,41 @@ import java.util.List;
 public class ItemCatServiceImpl implements ItemCatService{
      @Autowired
      private TbItemCatMapper itemCatMapper;
-
+     @Autowired
+     private JedisClient jedisClient;
+     @Value("REDIS_ITEMCAT_KEY")
+     private String REDIS_ITEMCAT_KEY;
     @Override
     public ItemCatResult getItemCatList() {
-        List catList=getItemCatList(0l);
         ItemCatResult result=new ItemCatResult();
+        try {
+            String json=jedisClient.hget(REDIS_ITEMCAT_KEY,"cat");
+            if (!StringUtils.isBlank(json)){
+                List list = JsonUtils.jsonToList(json, Object.class);
+                result.setData(list);
+                return result;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        List catList=getItemCatList(0L);
         result.setData(catList);
+        try {
+            jedisClient.hset(REDIS_ITEMCAT_KEY,"cat", JsonUtils.objectToJson(catList));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return result;
     }
 
+    @Override
+    public TaotaoResult syncContent(String cat) {
+        jedisClient.hdel(REDIS_ITEMCAT_KEY,cat);
+        return TaotaoResult.ok();
+    }
+
     private List getItemCatList(long parentId){
+
         //根据parentid
         TbItemCatExample catExample=new TbItemCatExample();
         TbItemCatExample.Criteria criteria = catExample.createCriteria();
@@ -55,8 +83,6 @@ public class ItemCatServiceImpl implements ItemCatService{
                      String node= "/products/"+tbItemCat.getId()+".html|"+tbItemCat.getName();
                      resultList.add(node);
                 }
-
-
         }
         return resultList;
     }

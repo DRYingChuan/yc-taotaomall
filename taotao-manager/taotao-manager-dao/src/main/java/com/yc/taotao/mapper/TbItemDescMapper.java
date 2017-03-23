@@ -1,5 +1,6 @@
 package com.yc.taotao.mapper;
 
+import com.yc.taotao.pojo.TbItemCat;
 import com.yc.taotao.pojo.TbItemDesc;
 import com.yc.taotao.pojo.TbItemDescExample;
 import java.util.List;
@@ -17,6 +18,7 @@ public interface TbItemDescMapper {
     List<TbItemDesc> selectByExampleWithBLOBs(TbItemDescExample example);
 
     List<TbItemDesc> selectByExample(TbItemDescExample example);
+    TbItemDesc selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TbItemDesc record, @Param("example") TbItemDescExample example);
 

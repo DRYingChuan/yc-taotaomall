@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -55,7 +54,7 @@
 <script type="text/javascript">pageConfig.product.marketPrice='';</script>
 <ul id="summary">
 	<li id="summary-price">
-		<div class="dt">淘&nbsp;淘&nbsp;价：</div>
+		<div class="dt">淘&nbsp;淘&nbsp;价:</div>
 		<div class="dd">
 			<strong class="p-price"  id="jd-price">￥<fmt:formatNumber groupingUsed="false" maxFractionDigits="2" minFractionDigits="2" value="${item.price / 100 }"/> </strong>
 			<a id="notice-downp" href="#none" target="_blank" clstag="shangpin|keycount|product|jiangjia">(降价通知)</a>
@@ -153,7 +152,8 @@
 				<a href="javascript:;" class="spec-control" id="spec-forward"></a>
 				<a href="javascript:;" class="spec-control" id="spec-backward"></a>
 				<div class="spec-items">
-					<ul class="lh">   
+					<ul class="lh">
+
 						<c:forEach items="${item.images}" var="pic" varStatus="status">  
 							<c:choose>
 								<c:when test="${status.index == 0 }">
